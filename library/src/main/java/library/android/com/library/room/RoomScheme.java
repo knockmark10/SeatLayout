@@ -182,7 +182,7 @@ public class RoomScheme {
         return false;
     }
 
-    private void clickSchemeProgrammatically(int row, int seat) {
+    public void clickSchemeProgrammatically(int row, int seat) {
         if (SeatStatus.canSeatBePressed(seats[row][seat].status())) {
             clickScheme(seat, row);
         }
