@@ -55,11 +55,11 @@ public class SeatLayoutView extends ImageView {
 
     public SeatLayoutView(Context context, AttributeSet attr) {
         super(context, attr);
-        TypedArray a = context.getTheme().obtainStyledAttributes(attr, R.styleable.ZoomableImageView, 0, 0);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attr, R.styleable.SeatLayoutView, 0, 0);
         try {
-            zoomByDoubleTap = a.getBoolean(R.styleable.ZoomableImageView_doubleTap, true);
+            zoomByDoubleTap = typedArray.getBoolean(R.styleable.SeatLayoutView_doubleTap, true);
         } finally {
-            a.recycle();
+            typedArray.recycle();
         }
         super.setClickable(true);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
