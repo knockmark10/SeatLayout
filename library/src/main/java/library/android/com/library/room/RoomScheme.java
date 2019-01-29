@@ -34,7 +34,7 @@ public class RoomScheme {
     private List<Zone> zones;
     private ZoneListener zoneListener;
 
-    public RoomScheme(SeatLayoutView image, Seat[][] seats) {
+    private RoomScheme(SeatLayoutView image, Seat[][] seats) {
         this.image = image;
         this.seats = seats;
     }
@@ -165,7 +165,7 @@ public class RoomScheme {
         }
     }
 
-    public boolean findZoneClick(Point p) {
+    private boolean findZoneClick(Point p) {
         for (Zone zone : zones) {
             int topX = offset / 2 + zone.leftTopX() * (seatWidth + seatGap);
             int topY = offset / 2 + zone.leftTopY() * (seatWidth + seatGap);
@@ -180,7 +180,7 @@ public class RoomScheme {
         return false;
     }
 
-    public void clickSchemeProgrammatically(int row, int seat) {
+    private void clickSchemeProgrammatically(int row, int seat) {
         if (SeatStatus.canSeatBePressed(seats[row][seat].status())) {
             clickScheme(seat, row);
         }
@@ -203,7 +203,7 @@ public class RoomScheme {
      * @param seat Seat that has been clicked
      * @return false If selected seats reached max limit, false otherwise
      */
-    public boolean updateSelectedSeatCount(Seat seat) {
+    private boolean updateSelectedSeatCount(Seat seat) {
         if (seat.status() == SeatStatus.FREE) {
             if (maxSelectedSeats == -1 || selectedSeats + 1 <= maxSelectedSeats) {
                 selectedSeats++;
@@ -216,7 +216,7 @@ public class RoomScheme {
         return true;
     }
 
-    public boolean canSeatPress(Point p, int row, int seat) {
+    private boolean canSeatPress(Point p, int row, int seat) {
         if (row >= width || (p.x % (seatWidth + seatGap) >= seatWidth)
                 || p.x <= 0) {
             return false;
@@ -345,7 +345,7 @@ public class RoomScheme {
         image.setShouldOnMeasureBeCalled(true);
     }
 
-    public void notifySeatListener(Seat s) {
+    private void notifySeatListener(Seat s) {
         if (s.status() == SeatStatus.FREE) {
             if (listener != null)
                 listener.selectSeat(s.id());
@@ -359,10 +359,10 @@ public class RoomScheme {
 
         private ScenePosition position;
         private int dimension;
-        public int dimensionSecond;
+        private int dimensionSecond;
         public int width, height, offset;
 
-        public void setScenePosition(ScenePosition position, int offset) {
+        private void setScenePosition(ScenePosition position, int offset) {
             this.position = position;
             this.offset = offset;
             dimension = 90;
@@ -391,34 +391,34 @@ public class RoomScheme {
             }
         }
 
-        public Scene(ScenePosition position, int width, int height, int offset) {
+        private Scene(ScenePosition position, int width, int height, int offset) {
             this.width = width;
             this.height = height;
             setScenePosition(position, offset);
         }
 
-        public int getTopXOffset() {
+        private int getTopXOffset() {
             if (position == ScenePosition.NORTH) {
                 return dimension + offset;
             }
             return 0;
         }
 
-        public int getLeftYOffset() {
+        private int getLeftYOffset() {
             if (position == ScenePosition.EAST) {
                 return dimension + offset;
             }
             return 0;
         }
 
-        public int getBottomXOffset() {
+        private int getBottomXOffset() {
             if (position == ScenePosition.SOUTH) {
                 return dimension + offset;
             }
             return 0;
         }
 
-        public int getRightYOffset() {
+        private int getRightYOffset() {
             if (position == ScenePosition.WEST) {
                 return dimension + offset;
             }
