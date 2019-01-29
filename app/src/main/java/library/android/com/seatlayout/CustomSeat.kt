@@ -20,8 +20,6 @@ data class CustomSeat(
 
     override fun id(): Int = id
 
-    override fun color(): Int = color
-
     override fun marker(): String = marker
 
     override fun selectedSeat(): String = selectedSeatMarker

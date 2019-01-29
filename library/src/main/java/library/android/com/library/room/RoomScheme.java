@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.*;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import library.android.com.library.R;
 import library.android.com.library.manager.BitmapManager;
 import library.android.com.library.widget.SeatLayoutView;
@@ -93,22 +95,22 @@ public class RoomScheme {
         image.setImageBitmap(getImageBitmap());
     }
 
-    public void setBackgroundColor(int color) {
+    public void setBackgroundColor(@ColorInt int color) {
         schemeBackgroundColor = color;
         image.setImageBitmap(getImageBitmap());
     }
 
-    public void setMarkerColor(int color) {
+    public void setMarkerColor(@ColorInt int color) {
         markerPaint.setColor(color);
         image.setImageBitmap(getImageBitmap());
     }
 
-    public void setSceneTextColor(int color) {
+    public void setSceneTextColor(@ColorInt int color) {
         scenePaint.setColor(color);
         image.setImageBitmap(getImageBitmap());
     }
 
-    public void setSceneBackgroundColor(int color) {
+    public void setSceneBackgroundColor(@ColorInt int color) {
         sceneBackgroundColor = color;
         image.setImageBitmap(getImageBitmap());
     }
@@ -266,7 +268,6 @@ public class RoomScheme {
                     case EMPTY:
                         break;
                 }
-                backgroundPaint.setColor(seats[i][j].color());
             }
         }
 
@@ -345,13 +346,13 @@ public class RoomScheme {
         image.setShouldOnMeasureBeCalled(true);
     }
 
-    private void notifySeatListener(Seat s) {
-        if (s.status() == SeatStatus.FREE) {
+    private void notifySeatListener(Seat seat) {
+        if (seat.status() == SeatStatus.FREE) {
             if (listener != null)
-                listener.selectSeat(s.id());
+                listener.selectSeat(seat.id());
         } else {
             if (listener != null)
-                listener.unSelectSeat(s.id());
+                listener.unSelectSeat(seat.id());
         }
     }
 
@@ -472,19 +473,19 @@ public class RoomScheme {
             mContext = context;
         }
 
-        public Builder setFreeSeatIcon(int resId) {
+        public Builder setFreeSeatIcon(@DrawableRes int resId) {
             Bitmap seatBitmap = BitmapManager.convertDrawableToBitmap(mResources, resId);
             this.freeSeatIcon = BitmapManager.changeBitmapSize(seatBitmap, 30, 30);
             return this;
         }
 
-        public Builder setBusySeatIcon(int resId) {
+        public Builder setBusySeatIcon(@DrawableRes int resId) {
             Bitmap seatBitmap = BitmapManager.convertDrawableToBitmap(mResources, resId);
             this.busySeatIcon = BitmapManager.changeBitmapSize(seatBitmap, 30, 30);
             return this;
         }
 
-        public Builder setChosenSeatIcon(int resId) {
+        public Builder setChosenSeatIcon(@DrawableRes int resId) {
             Bitmap seatBitmap = BitmapManager.convertDrawableToBitmap(mResources, resId);
             this.chosenSeatIcon = BitmapManager.changeBitmapSize(seatBitmap, 30, 30);
             return this;

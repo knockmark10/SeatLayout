@@ -1,6 +1,7 @@
 package library.android.com.seatlayout
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import library.android.com.library.room.RoomScheme
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             .setMaxSelectedTickets(10)
             .build()
 
+        scheme.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
     }
 
     private fun getSeats(): Array<Array<Seat>> {
