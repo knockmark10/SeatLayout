@@ -5,8 +5,6 @@ public interface Seat {
 
     String marker();
 
-    String selectedSeat();
-
     RoomScheme.SeatStatus status();
 
     void setStatus(RoomScheme.SeatStatus status);

@@ -12,8 +12,6 @@ data class CustomSeat(
 
     var marker: String = "",
 
-    var selectedSeatMarker: String = "",
-
     var seatStatus: RoomScheme.SeatStatus = RoomScheme.SeatStatus.FREE
 
 ) : Seat {
@@ -21,8 +19,6 @@ data class CustomSeat(
     override fun id(): Int = id
 
     override fun marker(): String = marker
-
-    override fun selectedSeat(): String = selectedSeatMarker
 
     override fun status(): RoomScheme.SeatStatus = seatStatus
 

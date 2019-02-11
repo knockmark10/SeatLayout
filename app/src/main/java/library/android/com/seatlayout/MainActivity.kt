@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
             for (j in 0..7) {
                 val seat = CustomSeat()
                 seat.id = i * 10 + (j + 1)
-                seat.selectedSeatMarker = (j + 1).toString()
                 if (i == 3 && j == 3 || i == 5 && j == 2) {
                     seat.seatStatus = RoomScheme.SeatStatus.BUSY
                     seat.marker = seat.id.toString()
