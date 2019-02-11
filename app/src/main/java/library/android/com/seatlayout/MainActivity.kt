@@ -1,5 +1,6 @@
 package library.android.com.seatlayout
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -17,17 +18,20 @@ class MainActivity : AppCompatActivity() {
             .setFreeSeatIcon(R.drawable.ic_flight_seat_free)
             .setChosenSeatIcon(R.drawable.ic_flight_seat_chosen)
             .setBusySeatIcon(R.drawable.ic_flight_seat_busy)
+            .setHallIcon(R.drawable.ic_doted_line, 50)
             .setMaxSelectedTickets(10)
+            .setSeatGap(20)
             .build()
 
-        scheme.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        scheme.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
+        scheme.setMarkerColor(ContextCompat.getColor(this, R.color.colorMarker))
     }
 
     private fun getSeats(): Array<Array<Seat>> {
         var seats = arrayOf<Array<Seat>>()
         for (i in 0..9) {
             var array = arrayOf<Seat>()
-            for (j in 0..9) {
+            for (j in 0..7) {
                 val seat = CustomSeat()
                 seat.id = i * 10 + (j + 1)
                 seat.selectedSeatMarker = (j + 1).toString()
@@ -40,6 +44,39 @@ class MainActivity : AppCompatActivity() {
                     seat.seatStatus = RoomScheme.SeatStatus.EMPTY
                 } else {
                     seat.seatStatus = RoomScheme.SeatStatus.FREE
+                }
+
+                if (i == 0) {
+                    if (j == 4) {
+                        seat.seatStatus = RoomScheme.SeatStatus.EMPTY
+                    } else {
+                        seat.seatStatus = RoomScheme.SeatStatus.INFO
+                        when (j) {
+                            1 -> seat.marker = "A"
+                            2 -> seat.marker = "B"
+                            3 -> seat.marker = "C"
+                            5 -> seat.marker = "D"
+                            6 -> seat.marker = "E"
+                            7 -> seat.marker = "F"
+                        }
+                    }
+                }
+
+                if (j == 0) {
+                    if (i == 0) {
+                        seat.seatStatus = RoomScheme.SeatStatus.EMPTY
+                    } else {
+                        seat.seatStatus = RoomScheme.SeatStatus.INFO
+                        seat.marker = i.toString()
+                    }
+                }
+
+                if (j == 4) {
+                    if (i == 0) {
+                        seat.seatStatus = RoomScheme.SeatStatus.EMPTY
+                    } else {
+                        seat.seatStatus = RoomScheme.SeatStatus.HALL
+                    }
                 }
                 array += seat
             }

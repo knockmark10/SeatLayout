@@ -20,7 +20,8 @@ public class RoomScheme {
 
     private final Rect textBounds = new Rect();
     private Paint textPaint, backgroundPaint, markerPaint, scenePaint;
-    private int seatWidth, seatGap, offset;
+    private int seatWidth, offset;
+    private int seatGap = 5;
     private int schemeBackgroundColor, sceneBackgroundColor;
     private int selectedSeats, maxSelectedSeats;
     private Typeface typeface;
@@ -28,6 +29,7 @@ public class RoomScheme {
     private Bitmap freeSeatIcon;
     private Bitmap busySeatIcon;
     private Bitmap chosenSeatIcon;
+    private Bitmap hallIcon;
 
     private Scene scene;
     private SeatLayoutView image;
@@ -77,7 +79,6 @@ public class RoomScheme {
         backgroundPaint.setStrokeWidth(0);
 
         seatWidth = 30;
-        seatGap = 5;
         offset = 30;
         height = seats.length;
         width = seats[0].length;
@@ -265,6 +266,11 @@ public class RoomScheme {
                                 offset / 2 + (seatWidth + seatGap) * j + seatWidth / 2 + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + seatWidth / 2 + scene.getTopXOffset());
                         break;
+                    case HALL:
+                        tempCanvas.drawBitmap(hallIcon,
+                                offset / 2 + (seatWidth + seatGap - 2) * j + scene.getLeftYOffset(),
+                                offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
+                                backgroundPaint);
                     case EMPTY:
                         break;
                 }
@@ -434,7 +440,7 @@ public class RoomScheme {
     }
 
     public enum SeatStatus {
-        FREE, BUSY, EMPTY, CHOSEN, INFO;
+        FREE, BUSY, EMPTY, CHOSEN, INFO, HALL;
 
         public static boolean canSeatBePressed(SeatStatus status) {
             return (status == FREE || status == CHOSEN);
@@ -460,11 +466,13 @@ public class RoomScheme {
         private Bitmap freeSeatIcon;
         private Bitmap busySeatIcon;
         private Bitmap chosenSeatIcon;
+        private Bitmap hallIcon;
         private Resources mResources;
         private SeatLayoutView mImage;
         private Context mContext;
         private Seat[][] mSeats;
         private int maxTickets = -1;
+        private int seatGap = 0;
 
         public Builder(Context context, SeatLayoutView image, Seat[][] seats) {
             mResources = context.getResources();
@@ -491,8 +499,19 @@ public class RoomScheme {
             return this;
         }
 
+        public Builder setHallIcon(@DrawableRes int resId, int desiredSize) {
+            Bitmap seatBitmap = BitmapManager.convertDrawableToBitmap(mResources, resId);
+            this.hallIcon = BitmapManager.changeBitmapSize(seatBitmap, desiredSize, desiredSize);
+            return this;
+        }
+
         public Builder setMaxSelectedTickets(int maxTickets) {
             this.maxTickets = maxTickets;
+            return this;
+        }
+
+        public Builder setSeatGap(int seatGap) {
+            this.seatGap = seatGap;
             return this;
         }
 
@@ -502,15 +521,19 @@ public class RoomScheme {
             scheme.freeSeatIcon = this.freeSeatIcon;
             scheme.busySeatIcon = this.busySeatIcon;
             scheme.chosenSeatIcon = this.chosenSeatIcon;
+            scheme.hallIcon = this.hallIcon;
             scheme.drawHall(mContext);
             if (maxTickets >= 0) {
                 scheme.maxSelectedSeats = maxTickets;
+            }
+            if (seatGap > 0) {
+                scheme.seatGap = seatGap;
             }
             return scheme;
         }
 
         private void checkNotNull() {
-            if (freeSeatIcon == null || busySeatIcon == null || chosenSeatIcon == null) {
+            if (freeSeatIcon == null || busySeatIcon == null || chosenSeatIcon == null || hallIcon == null) {
                 throw new IllegalArgumentException("Seat icons must be set before calling build method.");
             }
         }

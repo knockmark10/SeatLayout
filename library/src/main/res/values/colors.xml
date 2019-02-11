@@ -9,4 +9,5 @@
     <color name="light_white">#FFF7F7F7</color>
     <color name="dark_green">#FF4F7514</color>
     <color name="dark_purple">#FF661141</color>
+    <color name="blue_divider">#2D82D5</color>
 </resources>
