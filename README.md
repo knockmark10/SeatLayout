@@ -1,4 +1,3 @@
-
 HallScheme  
 ====================  
   
@@ -52,7 +51,6 @@ public class CustomSeat implements Seat {
   
     public int id;  
     public String marker;  
-    public String selectedSeatMarker;  
     public HallScheme.SeatStatus status;  
   
     @Override  
@@ -63,11 +61,6 @@ public class CustomSeat implements Seat {
     @Override  
     public String marker() {  
         return marker;  
-    }  
-  
-    @Override  
-    public String selectedSeat() {  
-        return selectedSeatMarker;  
     }  
   
     @Override  
@@ -100,8 +93,12 @@ RoomScheme scheme = new RoomScheme.Builder(mContext, view, seats)
 .setChosenSeatIcon(R.drawable.ic_flight_seat_chosen)  
 //Set the icon to display an ocupied seat
 .setBusySeatIcon(R.drawable.ic_flight_seat_busy)  
+//Set the icon to display a representation of the hall
+.setHallIcon(R.drawable.ic_hall_icon, desiredSize)  
 //Set the max tickets allowed to select
 .setMaxSelectedTickets(10)
+//Set the space between seats
+.setSeatGap(20)
 ```  
   
 **6)** Set `SeatListener` to `RoomScheme` to handle click events on seats:  
@@ -138,6 +135,7 @@ To use the library you should implement custom `Seat`. It has the following meth
 + `BUSY` - seat cannot be used;  
 + `INFO` - the seat is empty, but you can use to show some text there;  
 + `EMPTY` - the seat is empty.  
++ `HALL` - will be the hall
   
 **e)** `void setStatus(HallScheme.SeatStatus status);` update current `Seat` status.   
   
