@@ -1,5 +1,5 @@
 
-HallScheme  
+SeatLayout 
 ====================  
   
 [![](https://jitpack.io/v/knockmark10/SeatLayout.svg)](https://jitpack.io/#knockmark10/SeatLayout)
