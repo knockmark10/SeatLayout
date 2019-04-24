@@ -1,4 +1,4 @@
-package library.android.com.library.manager;
+package library.knockmark.com.library.manager;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

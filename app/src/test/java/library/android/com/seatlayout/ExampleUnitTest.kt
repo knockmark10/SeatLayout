@@ -1,4 +1,4 @@
-package library.android.com.seatlayout
+package library.knockmark.com.seatlayout
 
 import org.junit.Test
 

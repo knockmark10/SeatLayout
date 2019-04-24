@@ -1,4 +1,4 @@
-package library.android.com.library.widget;
+package library.knockmark.com.library.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -7,17 +7,17 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
-import library.android.com.library.R;
-import library.android.com.library.room.ImageClickListener;
+import library.knockmark.com.library.R;
+import library.knockmark.com.library.room.ImageClickListener;
 
-public class SeatLayoutView extends ImageView {
+public class SeatLayoutView extends AppCompatImageView {
 
     private final static int ANIMATION_ZOOM_DURATION = 400;
     private final static float ANIMATION_ZOOM_PARAMETER = 1.3f;

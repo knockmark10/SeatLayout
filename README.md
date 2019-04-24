@@ -27,7 +27,7 @@ dependencies {
 	}
 ```  
   
-**3)** Add ``library.android.com.library.widget.SeatLayoutView`` to your layout XML file. Content is automatically centered within free space.  
+**3)** Add ``library.knockmark.com.library.widget.SeatLayoutView`` to your layout XML file. Content is automatically centered within free space.  
   
 ```xml  
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"  
@@ -36,7 +36,7 @@ dependencies {
   android:layout_height="match_parent"  
   tools:context=".MainActivity">  
   
- <library.android.com.library.widget.SeatLayoutView  
+ <library.knockmark.com.library.widget.SeatLayoutView  
   android:id="@+id/seat_map"  
   android:layout_width="match_parent"  
   android:layout_height="match_parent" />  

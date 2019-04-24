@@ -1,4 +1,4 @@
-package library.android.com.seatlayout
+package library.knockmark.com.seatlayout
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("library.android.com.seatlayout", appContext.packageName)
+        assertEquals("library.knockmark.com.seatlayout", appContext.packageName)
     }
 }

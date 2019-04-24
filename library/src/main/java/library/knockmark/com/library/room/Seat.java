@@ -1,4 +1,4 @@
-package library.android.com.library.room;
+package library.knockmark.com.library.room;
 
 public interface Seat {
     int id();

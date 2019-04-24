@@ -1,8 +1,8 @@
-package library.android.com.seatlayout
+package library.knockmark.com.seatlayout
 
 import android.graphics.Color
-import library.android.com.library.room.RoomScheme
-import library.android.com.library.room.Seat
+import library.knockmark.com.library.room.RoomScheme
+import library.knockmark.com.library.room.Seat
 
 data class CustomSeat(
 

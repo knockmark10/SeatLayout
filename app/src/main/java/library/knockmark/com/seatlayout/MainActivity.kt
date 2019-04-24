@@ -1,12 +1,12 @@
-package library.android.com.seatlayout
+package library.knockmark.com.seatlayout
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import library.android.com.library.room.RoomScheme
-import library.android.com.library.room.Seat
+import library.knockmark.com.library.room.RoomScheme
+import library.knockmark.com.library.room.Seat
+import library.knockmark.com.seatlayout.R
 
 class MainActivity : AppCompatActivity() {
 

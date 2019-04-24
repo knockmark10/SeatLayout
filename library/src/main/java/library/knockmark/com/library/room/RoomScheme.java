@@ -1,4 +1,4 @@
-package library.android.com.library.room;
+package library.knockmark.com.library.room;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,9 +6,9 @@ import android.graphics.*;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import library.android.com.library.R;
-import library.android.com.library.manager.BitmapManager;
-import library.android.com.library.widget.SeatLayoutView;
+import library.knockmark.com.library.R;
+import library.knockmark.com.library.manager.BitmapManager;
+import library.knockmark.com.library.widget.SeatLayoutView;
 
 import java.util.ArrayList;
 import java.util.List;
