@@ -1,4 +1,5 @@
 
+
 SeatLayout 
 ====================  
   
@@ -138,7 +139,9 @@ To use the library you should implement custom `Seat`. It has the following meth
 + `BUSY` - seat cannot be used;  
 + `INFO` - the seat is empty, but you can use to show some text there;  
 + `EMPTY` - the seat is empty.  
-  
++ `SPECIAL` - the seat is special and can be checked.  
++ `HALL` - the seat is treated as hall.     
+
 **e)** `void setStatus(HallScheme.SeatStatus status);` update current `Seat` status.   
   
 ### Features:  
