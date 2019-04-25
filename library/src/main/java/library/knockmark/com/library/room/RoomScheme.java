@@ -27,6 +27,7 @@ public class RoomScheme {
     private Typeface typeface;
     private String sceneName;
     private Bitmap freeSeatIcon;
+    private Bitmap specialSeatIcon;
     private Bitmap busySeatIcon;
     private Bitmap chosenSeatIcon;
     private Bitmap hallIcon;
@@ -207,7 +208,7 @@ public class RoomScheme {
      * @return false If selected seats reached max limit, false otherwise
      */
     private boolean updateSelectedSeatCount(Seat seat) {
-        if (seat.status() == SeatStatus.FREE) {
+        if (seat.status() == SeatStatus.FREE || seat.status() == SeatStatus.SPECIAL) {
             if (maxSelectedSeats == -1 || selectedSeats + 1 <= maxSelectedSeats) {
                 selectedSeats++;
             } else if (selectedSeats + 1 > maxSelectedSeats) {
@@ -249,13 +250,20 @@ public class RoomScheme {
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
                         break;
+                    case SPECIAL:
+                        tempCanvas.drawBitmap(specialSeatIcon,
+                                offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
+                                offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
+                                backgroundPaint);
+                        break;
                     case BUSY:
                         tempCanvas.drawBitmap(busySeatIcon,
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
                         break;
-                    case CHOSEN:
+                    case CHOSEN_FREE:
+                    case CHOSEN_SPECIAL:
                         tempCanvas.drawBitmap(chosenSeatIcon,
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
@@ -440,20 +448,26 @@ public class RoomScheme {
     }
 
     public enum SeatStatus {
-        FREE, BUSY, EMPTY, CHOSEN, INFO, HALL;
+        FREE, BUSY, EMPTY, CHOSEN_FREE, CHOSEN_SPECIAL, SPECIAL, INFO, HALL;
 
         public static boolean canSeatBePressed(SeatStatus status) {
-            return (status == FREE || status == CHOSEN);
+            return (status == FREE || status == CHOSEN_FREE || status == CHOSEN_SPECIAL || status == SPECIAL);
         }
 
         public SeatStatus pressSeat() {
-            if (this == FREE)
-                return CHOSEN;
-            if (this == CHOSEN)
-                return FREE;
-            return this;
+            switch (this) {
+                case FREE:
+                    return CHOSEN_FREE;
+                case SPECIAL:
+                    return CHOSEN_SPECIAL;
+                case CHOSEN_FREE:
+                    return FREE;
+                case CHOSEN_SPECIAL:
+                    return SPECIAL;
+                default:
+                    return this;
+            }
         }
-
     }
 
     @Override
@@ -464,6 +478,7 @@ public class RoomScheme {
     public static class Builder {
 
         private Bitmap freeSeatIcon;
+        private Bitmap specialSeatIcon;
         private Bitmap busySeatIcon;
         private Bitmap chosenSeatIcon;
         private Bitmap hallIcon;
@@ -484,6 +499,12 @@ public class RoomScheme {
         public Builder setFreeSeatIcon(@DrawableRes int resId) {
             Bitmap seatBitmap = BitmapManager.convertDrawableToBitmap(mResources, resId);
             this.freeSeatIcon = BitmapManager.changeBitmapSize(seatBitmap, 30, 30);
+            return this;
+        }
+
+        public Builder setSpecialSeatIcon(@DrawableRes int resId) {
+            Bitmap seatBitmap = BitmapManager.convertDrawableToBitmap(mResources, resId);
+            this.specialSeatIcon = BitmapManager.changeBitmapSize(seatBitmap, 30, 30);
             return this;
         }
 
@@ -519,6 +540,7 @@ public class RoomScheme {
             checkNotNull();
             RoomScheme scheme = new RoomScheme(mImage, mSeats);
             scheme.freeSeatIcon = this.freeSeatIcon;
+            scheme.specialSeatIcon = this.specialSeatIcon;
             scheme.busySeatIcon = this.busySeatIcon;
             scheme.chosenSeatIcon = this.chosenSeatIcon;
             scheme.hallIcon = this.hallIcon;
@@ -533,7 +555,7 @@ public class RoomScheme {
         }
 
         private void checkNotNull() {
-            if (freeSeatIcon == null || busySeatIcon == null || chosenSeatIcon == null || hallIcon == null) {
+            if (freeSeatIcon == null || busySeatIcon == null || chosenSeatIcon == null || hallIcon == null || specialSeatIcon == null) {
                 throw new IllegalArgumentException("Seat icons must be set before calling build method.");
             }
         }
