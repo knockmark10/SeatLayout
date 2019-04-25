@@ -16,10 +16,11 @@ class MainActivity : AppCompatActivity() {
 
         val scheme = RoomScheme.Builder(this, this.seat_map, getSeats())
             .setFreeSeatIcon(R.drawable.ic_flight_seat_free)
+            .setSpecialSeatIcon(R.drawable.ic_doted_line)
             .setChosenSeatIcon(R.drawable.ic_flight_seat_chosen)
             .setBusySeatIcon(R.drawable.ic_flight_seat_busy)
             .setHallIcon(R.drawable.ic_doted_line, 50)
-            .setMaxSelectedTickets(10)
+            .setMaxSelectedTickets(9)
             .setSeatGap(20)
             .build()
 
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
                     seat.seatStatus = RoomScheme.SeatStatus.BUSY
                 } else if (i == 9 && j == 0) {
                     seat.seatStatus = RoomScheme.SeatStatus.EMPTY
+                } else if(i == 2 && j == 2) {
+                    seat.seatStatus = RoomScheme.SeatStatus.SPECIAL
                 } else {
                     seat.seatStatus = RoomScheme.SeatStatus.FREE
                 }
