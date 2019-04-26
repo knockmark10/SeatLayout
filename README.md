@@ -29,7 +29,7 @@ dependencies {
 	}
 ```  
   
-**3)** Add ``library.android.com.library.widget.SeatLayoutView`` to your layout XML file. Content is automatically centered within free space.  
+**3)** Add ``library.knockmark.com.library.widget.SeatLayoutView`` to your layout XML file. Content is automatically centered within free space.  
   
 ```xml  
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"  
@@ -38,7 +38,7 @@ dependencies {
   android:layout_height="match_parent"  
   tools:context=".MainActivity">  
   
- <library.android.com.library.widget.SeatLayoutView  
+ <library.knockmark.com.library.widget.SeatLayoutView  
   android:id="@+id/seat_map"  
   android:layout_width="match_parent"  
   android:layout_height="match_parent" />  
@@ -53,7 +53,6 @@ public class CustomSeat implements Seat {
   
     public int id;  
     public String marker;  
-    public String selectedSeatMarker;  
     public HallScheme.SeatStatus status;  
   
     @Override  
@@ -64,11 +63,6 @@ public class CustomSeat implements Seat {
     @Override  
     public String marker() {  
         return marker;  
-    }  
-  
-    @Override  
-    public String selectedSeat() {  
-        return selectedSeatMarker;  
     }  
   
     @Override  
@@ -101,8 +95,12 @@ RoomScheme scheme = new RoomScheme.Builder(mContext, view, seats)
 .setChosenSeatIcon(R.drawable.ic_flight_seat_chosen)  
 //Set the icon to display an ocupied seat
 .setBusySeatIcon(R.drawable.ic_flight_seat_busy)  
+//Set the icon to display a representation of the hall
+.setHallIcon(R.drawable.ic_hall_icon, desiredSize)  
 //Set the max tickets allowed to select
 .setMaxSelectedTickets(10)
+//Set the space between seats
+.setSeatGap(20)
 ```  
   
 **6)** Set `SeatListener` to `RoomScheme` to handle click events on seats:  
