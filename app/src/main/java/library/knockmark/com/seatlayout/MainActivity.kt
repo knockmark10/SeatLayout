@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import library.knockmark.com.library.room.RoomScheme
 import library.knockmark.com.library.room.Seat
-import library.knockmark.com.seatlayout.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,11 +20,12 @@ class MainActivity : AppCompatActivity() {
             .setBusySeatIcon(R.drawable.ic_flight_seat_busy)
             .setHallIcon(R.drawable.ic_doted_line, 50)
             .setMaxSelectedTickets(9)
-            .setSeatGap(20)
+            .setSeatGap(25)
             .build()
 
         scheme.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
-        scheme.setMarkerColor(ContextCompat.getColor(this, R.color.colorMarker))
+        scheme.setIndicatorColor(ContextCompat.getColor(this, R.color.colorMarker))
+        scheme.setPassengerNameColor(ContextCompat.getColor(this, R.color.colorAccent))
     }
 
     private fun getSeats(): Array<Array<Seat>> {
@@ -35,41 +35,43 @@ class MainActivity : AppCompatActivity() {
             for (j in 0..7) {
                 val seat = CustomSeat()
                 seat.id = i * 10 + (j + 1)
-                if (i == 3 && j == 3 || i == 5 && j == 2) {
+                seat.seatNumber = "$i$j"
+
+                //Setting dummy seats
+                if (i == 4 && j == 3 || i == 6 && j == 2) {
                     seat.seatStatus = RoomScheme.SeatStatus.BUSY
-                    seat.marker = seat.id.toString()
                 } else if (i == 8) {
                     seat.seatStatus = RoomScheme.SeatStatus.BUSY
-                } else if (i == 9 && j == 0) {
+                } else if (i == 10 && j == 0) {
                     seat.seatStatus = RoomScheme.SeatStatus.EMPTY
-                } else if(i == 2 && j == 2) {
+                } else if (i == 2 && j == 2) {
                     seat.seatStatus = RoomScheme.SeatStatus.SPECIAL
                 } else {
                     seat.seatStatus = RoomScheme.SeatStatus.FREE
-                }
-
-                if (i == 0) {
-                    if (j == 4) {
-                        seat.seatStatus = RoomScheme.SeatStatus.EMPTY
-                    } else {
-                        seat.seatStatus = RoomScheme.SeatStatus.INFO
-                        when (j) {
-                            1 -> seat.marker = "A"
-                            2 -> seat.marker = "B"
-                            3 -> seat.marker = "C"
-                            5 -> seat.marker = "D"
-                            6 -> seat.marker = "E"
-                            7 -> seat.marker = "F"
-                        }
-                    }
                 }
 
                 if (j == 0) {
                     if (i == 0) {
                         seat.seatStatus = RoomScheme.SeatStatus.EMPTY
                     } else {
-                        seat.seatStatus = RoomScheme.SeatStatus.INFO
-                        seat.marker = i.toString()
+                        seat.seatStatus = RoomScheme.SeatStatus.INDICATOR
+                        seat.indicator = i.toString()
+                    }
+                }
+
+                if (i == 0) {
+                    if (j == 4) {
+                        seat.seatStatus = RoomScheme.SeatStatus.EMPTY
+                    } else {
+                        seat.seatStatus = RoomScheme.SeatStatus.INDICATOR
+                        when (j) {
+                            1 -> seat.indicator = "A"
+                            2 -> seat.indicator = "B"
+                            3 -> seat.indicator = "C"
+                            5 -> seat.indicator = "D"
+                            6 -> seat.indicator = "E"
+                            7 -> seat.indicator = "F"
+                        }
                     }
                 }
 

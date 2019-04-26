@@ -10,7 +10,9 @@ data class CustomSeat(
 
     var color: Int = Color.RED,
 
-    var marker: String = "",
+    var indicator: String = "",
+
+    var seatNumber: String = "",
 
     var seatStatus: RoomScheme.SeatStatus = RoomScheme.SeatStatus.FREE
 
@@ -18,7 +20,9 @@ data class CustomSeat(
 
     override fun id(): Int = id
 
-    override fun marker(): String = marker
+    override fun indicator(): String = indicator
+
+    override fun passengerName(): String = seatNumber
 
     override fun status(): RoomScheme.SeatStatus = seatStatus
 

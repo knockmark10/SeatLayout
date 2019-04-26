@@ -3,7 +3,9 @@ package library.knockmark.com.library.room;
 public interface Seat {
     int id();
 
-    String marker();
+    String indicator();
+
+    String passengerName();
 
     RoomScheme.SeatStatus status();
 

@@ -6,6 +6,7 @@ import android.graphics.*;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.util.Log;
 import library.knockmark.com.library.R;
 import library.knockmark.com.library.manager.BitmapManager;
 import library.knockmark.com.library.widget.SeatLayoutView;
@@ -19,7 +20,7 @@ public class RoomScheme {
     private Seat[][] seats;
 
     private final Rect textBounds = new Rect();
-    private Paint textPaint, backgroundPaint, markerPaint, scenePaint;
+    private Paint textPaint, backgroundPaint, indicatorPaint, passengerNamePaint, scenePaint;
     private int seatWidth, offset;
     private int seatGap = 5;
     private int schemeBackgroundColor, sceneBackgroundColor;
@@ -64,11 +65,13 @@ public class RoomScheme {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             schemeBackgroundColor = context.getResources().getColor(R.color.light_grey);
-            markerPaint = initTextPaint(context.getResources().getColor(R.color.black_gray));
+            indicatorPaint = initTextPaint(context.getResources().getColor(R.color.black_gray));
+            passengerNamePaint = initTextPaint(context.getResources().getColor(R.color.black_gray));
             scenePaint = initTextPaint(context.getResources().getColor(R.color.black_gray));
         } else {
             schemeBackgroundColor = context.getColor(R.color.light_grey);
-            markerPaint = initTextPaint(context.getColor(R.color.black_gray));
+            indicatorPaint = initTextPaint(context.getColor(R.color.black_gray));
+            passengerNamePaint = initTextPaint(context.getColor(R.color.black_gray));
             scenePaint = initTextPaint(context.getColor(R.color.black_gray));
         }
         textPaint = initTextPaint(Color.WHITE);
@@ -102,8 +105,13 @@ public class RoomScheme {
         image.setImageBitmap(getImageBitmap());
     }
 
-    public void setMarkerColor(@ColorInt int color) {
-        markerPaint.setColor(color);
+    public void setIndicatorColor(@ColorInt int color) {
+        indicatorPaint.setColor(color);
+        image.setImageBitmap(getImageBitmap());
+    }
+
+    public void setPassengerNameColor(@ColorInt int color) {
+        passengerNamePaint.setColor(color);
         image.setImageBitmap(getImageBitmap());
     }
 
@@ -133,7 +141,8 @@ public class RoomScheme {
      */
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;
-        markerPaint.setTypeface(typeface);
+        indicatorPaint.setTypeface(typeface);
+        passengerNamePaint.setTypeface(typeface);
         scenePaint.setTypeface(typeface);
         textPaint.setTypeface(typeface);
         image.setImageBitmap(getImageBitmap());
@@ -211,8 +220,8 @@ public class RoomScheme {
         if (seat.status() == SeatStatus.FREE || seat.status() == SeatStatus.SPECIAL) {
             if (maxSelectedSeats == -1 || selectedSeats + 1 <= maxSelectedSeats) {
                 selectedSeats++;
-            } else if (selectedSeats + 1 > maxSelectedSeats) {
-                return false;
+            } else {
+                return selectedSeats + 1 <= maxSelectedSeats;
             }
             return true;
         }
@@ -249,18 +258,21 @@ public class RoomScheme {
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
+                        Log.d("SEAT", "FREE: " + i + " " + j);
                         break;
                     case SPECIAL:
                         tempCanvas.drawBitmap(specialSeatIcon,
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
+                        Log.d("SEAT", "SPECIAL: " + i + " " + j);
                         break;
                     case BUSY:
                         tempCanvas.drawBitmap(busySeatIcon,
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
+                        Log.d("SEAT", "BUSY: " + i + " " + j);
                         break;
                     case CHOSEN_FREE:
                     case CHOSEN_SPECIAL:
@@ -268,18 +280,25 @@ public class RoomScheme {
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
+                        drawTextCentred(tempCanvas, passengerNamePaint, "MC",
+                                offset / 2 + (seatWidth + seatGap) * j + seatWidth / 2 + scene.getLeftYOffset(),
+                                offset / 10 + (seatWidth + seatGap) * i + seatWidth / 10 + scene.getTopXOffset());
+                        Log.d("SEAT", "CHOSEN: " + i + " " + j);
                         break;
-                    case INFO:
-                        drawTextCentred(tempCanvas, markerPaint, seats[i][j].marker(),
+                    case INDICATOR:
+                        drawTextCentred(tempCanvas, indicatorPaint, seats[i][j].indicator(),
                                 offset / 2 + (seatWidth + seatGap) * j + seatWidth / 2 + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + seatWidth / 2 + scene.getTopXOffset());
+                        Log.d("SEAT", "INDICATOR: " + i + " " + j);
                         break;
                     case HALL:
                         tempCanvas.drawBitmap(hallIcon,
                                 offset / 2 + (seatWidth + seatGap - 2) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
+                        Log.d("SEAT", "HALL: " + i + " " + j);
                     case EMPTY:
+                        Log.d("SEAT", "EMPTY: " + i + " " + j);
                         break;
                 }
             }
@@ -309,34 +328,37 @@ public class RoomScheme {
         }
         backgroundPaint.setColor(sceneBackgroundColor);
         int topX = 0, topY = 0, bottomX = 0, bottomY = 0;
-        if (scene.position == ScenePosition.NORTH) {
-            int totalWidth = width * (seatWidth + seatGap) - seatGap + offset;
-            topX = offset / 2;
-            topY = totalWidth / 2 - width * 6;
-            bottomX = topX + scene.dimension;
-            bottomY = topY + scene.dimensionSecond;
+        switch (scene.position) {
+            case NORTH:
+                int totalWidth = width * (seatWidth + seatGap) - seatGap + offset;
+                topX = offset / 2;
+                topY = totalWidth / 2 - width * 6;
+                bottomX = topX + scene.dimension;
+                bottomY = topY + scene.dimensionSecond;
+                break;
+            case SOUTH:
+                int totalWidthSouth = width * (seatWidth + seatGap) - seatGap + offset;
+                topX = height * (seatWidth + seatGap) - seatGap + offset;
+                topY = totalWidthSouth / 2 - width * 6;
+                bottomX = topX + scene.dimension;
+                bottomY = topY + scene.dimensionSecond;
+                break;
+            case EAST:
+                int totalHeight = height * (seatWidth + seatGap) - seatGap + offset;
+                topX = totalHeight / 2 - height * 6;
+                topY = offset / 2;
+                bottomX = topX + scene.dimensionSecond;
+                bottomY = topY + scene.dimension;
+                break;
+            case WEST:
+                int totalHeightWest = height * (seatWidth + seatGap) - seatGap + offset;
+                topX = totalHeightWest / 2 - height * 6;
+                topY = width * (seatWidth + seatGap) - seatGap + offset;
+                bottomX = topX + scene.dimensionSecond;
+                bottomY = topY + scene.dimension;
+                break;
         }
-        if (scene.position == ScenePosition.SOUTH) {
-            int totalWidth = width * (seatWidth + seatGap) - seatGap + offset;
-            topX = height * (seatWidth + seatGap) - seatGap + offset;
-            topY = totalWidth / 2 - width * 6;
-            bottomX = topX + scene.dimension;
-            bottomY = topY + scene.dimensionSecond;
-        }
-        if (scene.position == ScenePosition.EAST) {
-            int totalHeight = height * (seatWidth + seatGap) - seatGap + offset;
-            topX = totalHeight / 2 - height * 6;
-            topY = offset / 2;
-            bottomX = topX + scene.dimensionSecond;
-            bottomY = topY + scene.dimension;
-        }
-        if (scene.position == ScenePosition.WEST) {
-            int totalHeight = height * (seatWidth + seatGap) - seatGap + offset;
-            topX = totalHeight / 2 - height * 6;
-            topY = width * (seatWidth + seatGap) - seatGap + offset;
-            bottomX = topX + scene.dimensionSecond;
-            bottomY = topY + scene.dimension;
-        }
+
         canvas.drawRect(topY, topX, bottomY, bottomX, backgroundPaint);
         canvas.save();
         if (scene.position == ScenePosition.EAST) {
@@ -448,7 +470,7 @@ public class RoomScheme {
     }
 
     public enum SeatStatus {
-        FREE, BUSY, EMPTY, CHOSEN_FREE, CHOSEN_SPECIAL, SPECIAL, INFO, HALL;
+        FREE, BUSY, EMPTY, CHOSEN_FREE, CHOSEN_SPECIAL, SPECIAL, INDICATOR, HALL;
 
         public static boolean canSeatBePressed(SeatStatus status) {
             return (status == FREE || status == CHOSEN_FREE || status == CHOSEN_SPECIAL || status == SPECIAL);
