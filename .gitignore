@@ -61,3 +61,5 @@ libs/
 src/main/res/drawable/
 library/src/main/res/drawable/
 .gradle/4.6/fileHashes/fileHashes.lock
+
+\.idea/
