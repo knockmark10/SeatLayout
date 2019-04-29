@@ -511,11 +511,15 @@ public class RoomScheme {
         private int maxTickets = -1;
         private int seatGap = 0;
 
-        public Builder(Context context, SeatLayoutView image, Seat[][] seats) {
+        public Builder(Context context, SeatLayoutView image) {
             mResources = context.getResources();
             mImage = image;
-            mSeats = seats;
             mContext = context;
+        }
+
+        public Builder setSeats(Seat[][] seats) {
+            mSeats = seats;
+            return this;
         }
 
         public Builder setFreeSeatIcon(@DrawableRes int resId) {

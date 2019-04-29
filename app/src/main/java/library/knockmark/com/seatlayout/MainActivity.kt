@@ -13,7 +13,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val scheme = RoomScheme.Builder(this, this.seat_map, getSeats())
+        val scheme = RoomScheme.Builder(this, this.seat_map)
+            .setSeats(getSeats())
             .setFreeSeatIcon(R.drawable.ic_flight_seat_free)
             .setSpecialSeatIcon(R.drawable.ic_doted_line)
             .setChosenSeatIcon(R.drawable.ic_flight_seat_chosen)
