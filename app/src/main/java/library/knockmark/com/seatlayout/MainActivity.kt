@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             var array = arrayOf<Seat>()
             for (j in 0..7) {
                 val seat = CustomSeat()
-                seat.id = i * 10 + (j + 1)
+                seat.id = (i * 10 + (j + 1)).toString()
                 seat.seatNumber = "$i$j"
 
                 //Setting dummy seats

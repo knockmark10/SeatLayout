@@ -1,7 +1,8 @@
 package library.knockmark.com.library.room;
 
 public interface Seat {
-    int id();
+
+    String id();
 
     String indicator();
 

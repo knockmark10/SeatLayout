@@ -6,7 +6,7 @@ import library.knockmark.com.library.room.Seat
 
 data class CustomSeat(
 
-    var id: Int = -1,
+    var id: String = "",
 
     var color: Int = Color.RED,
 
@@ -18,7 +18,7 @@ data class CustomSeat(
 
 ) : Seat {
 
-    override fun id(): Int = id
+    override fun id(): String = id
 
     override fun indicator(): String = indicator
 

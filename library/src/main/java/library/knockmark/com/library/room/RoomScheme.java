@@ -185,7 +185,7 @@ public class RoomScheme {
             int bottomY = offset / 2 + (zone.leftTopY() + zone.height()) * (seatWidth + seatGap) - seatGap;
             if (p.x >= topX && p.x <= bottomX && p.y >= topY && p.y <= bottomY) {
                 if (zoneListener != null)
-                    zoneListener.zoneClick(zone.id());
+                    zoneListener.onZoneClicked(zone.id());
                 return true;
             }
         }
@@ -205,7 +205,7 @@ public class RoomScheme {
             pressedSeat.setStatus(pressedSeat.status().pressSeat());
             image.setImageBitmap(getImageBitmap());
         } else if (maxSeatsClickListener != null) {
-            maxSeatsClickListener.maxSeatsReached(pressedSeat.id());
+            maxSeatsClickListener.onMaxSeatsReached(pressedSeat.id());
         }
     }
 
@@ -377,10 +377,10 @@ public class RoomScheme {
     private void notifySeatListener(Seat seat) {
         if (seat.status() == SeatStatus.FREE) {
             if (listener != null)
-                listener.selectSeat(seat.id());
+                listener.onSeatSelected(seat.id());
         } else {
             if (listener != null)
-                listener.unSelectSeat(seat.id());
+                listener.onSeatUnselected(seat.id());
         }
     }
 
