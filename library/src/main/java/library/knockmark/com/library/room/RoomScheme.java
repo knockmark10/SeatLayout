@@ -6,7 +6,6 @@ import android.graphics.*;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.util.Log;
 import library.knockmark.com.library.R;
 import library.knockmark.com.library.manager.BitmapManager;
 import library.knockmark.com.library.widget.SeatLayoutView;
@@ -137,7 +136,7 @@ public class RoomScheme {
      * Set custom typeface to scheme.
      * Be careful when using. Bold typefaces can be drawn incorrectly.
      *
-     * @param typeface - Typeface to be setted
+     * @param typeface - Typeface to be set
      */
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;
@@ -258,21 +257,18 @@ public class RoomScheme {
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
-                        Log.d("SEAT", "FREE: " + i + " " + j);
                         break;
                     case SPECIAL:
                         tempCanvas.drawBitmap(specialSeatIcon,
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
-                        Log.d("SEAT", "SPECIAL: " + i + " " + j);
                         break;
                     case BUSY:
                         tempCanvas.drawBitmap(busySeatIcon,
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
-                        Log.d("SEAT", "BUSY: " + i + " " + j);
                         break;
                     case CHOSEN_FREE:
                     case CHOSEN_SPECIAL:
@@ -283,22 +279,18 @@ public class RoomScheme {
                         drawTextCentred(tempCanvas, passengerNamePaint, "MC",
                                 offset / 2 + (seatWidth + seatGap) * j + seatWidth / 2 + scene.getLeftYOffset(),
                                 offset / 10 + (seatWidth + seatGap) * i + seatWidth / 10 + scene.getTopXOffset());
-                        Log.d("SEAT", "CHOSEN: " + i + " " + j);
                         break;
                     case INDICATOR:
                         drawTextCentred(tempCanvas, indicatorPaint, seats[i][j].indicator(),
                                 offset / 2 + (seatWidth + seatGap) * j + seatWidth / 2 + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + seatWidth / 2 + scene.getTopXOffset());
-                        Log.d("SEAT", "INDICATOR: " + i + " " + j);
                         break;
                     case HALL:
                         tempCanvas.drawBitmap(hallIcon,
                                 offset / 2 + (seatWidth + seatGap - 2) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
-                        Log.d("SEAT", "HALL: " + i + " " + j);
                     case EMPTY:
-                        Log.d("SEAT", "EMPTY: " + i + " " + j);
                         break;
                 }
             }

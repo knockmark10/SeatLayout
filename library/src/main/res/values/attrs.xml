@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="SeatLayoutView">
         <attr name="doubleTap" format="boolean" />
+        <attr name="maxZoom" format="float" />
     </declare-styleable>
 </resources>

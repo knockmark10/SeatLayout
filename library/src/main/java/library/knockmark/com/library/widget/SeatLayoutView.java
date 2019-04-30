@@ -58,6 +58,7 @@ public class SeatLayoutView extends AppCompatImageView {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attr, R.styleable.SeatLayoutView, 0, 0);
         try {
             zoomByDoubleTap = typedArray.getBoolean(R.styleable.SeatLayoutView_doubleTap, true);
+            maxScale = typedArray.getFloat(R.styleable.SeatLayoutView_maxZoom, 3.0f);
         } finally {
             typedArray.recycle();
         }
@@ -162,6 +163,10 @@ public class SeatLayoutView extends AppCompatImageView {
 
     public void setZoomByDoubleTap(boolean zoomByDoubleTap) {
         this.zoomByDoubleTap = zoomByDoubleTap;
+    }
+
+    public void setMaxZoom(float maxZoom) {
+        this.maxScale = maxZoom;
     }
 
     @Override
