@@ -276,7 +276,7 @@ public class RoomScheme {
                                 offset / 2 + (seatWidth + seatGap) * j + scene.getLeftYOffset(),
                                 offset / 2 + (seatWidth + seatGap) * i + scene.getTopXOffset(),
                                 backgroundPaint);
-                        drawTextCentred(tempCanvas, passengerNamePaint, "MC",
+                        drawTextCentred(tempCanvas, passengerNamePaint, seats[i][j].passengerName(),
                                 offset / 2 + (seatWidth + seatGap) * j + seatWidth / 2 + scene.getLeftYOffset(),
                                 offset / 10 + (seatWidth + seatGap) * i + seatWidth / 10 + scene.getTopXOffset());
                         break;
