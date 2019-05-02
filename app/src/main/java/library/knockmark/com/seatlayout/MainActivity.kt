@@ -1,8 +1,10 @@
 package library.knockmark.com.seatlayout
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.MotionEvent
 import kotlinx.android.synthetic.main.activity_main.*
 import library.knockmark.com.library.room.RoomScheme
 import library.knockmark.com.library.room.Seat
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         scheme.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
         scheme.setIndicatorColor(ContextCompat.getColor(this, R.color.colorMarker))
         scheme.setPassengerNameColor(ContextCompat.getColor(this, R.color.colorAccent))
+        this.seat_map.performMaxZoom()
     }
 
     private fun getSeats(): Array<Array<Seat>> {

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.os.SystemClock;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -31,6 +32,7 @@ public class SeatLayoutView extends AppCompatImageView {
     private static final int ZOOM = 2;
     private static final int CLICK = 3;
     private int mode = NONE;
+    private boolean isSwipeEmulated = false;
 
     private boolean isClick;
 
@@ -204,6 +206,20 @@ public class SeatLayoutView extends AppCompatImageView {
         });
         zoomAnimation.setDuration(ANIMATION_ZOOM_DURATION);
         zoomAnimation.start();
+    }
+
+    public void performMaxZoom() {
+        ValueAnimator zoomAnimation = ValueAnimator.ofFloat(saveScale, maxScale);
+        zoomAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float value = (Float) valueAnimator.getAnimatedValue();
+                zoomScale(value);
+            }
+        });
+        zoomAnimation.setDuration(ANIMATION_ZOOM_DURATION);
+        zoomAnimation.start();
+        this.isSwipeEmulated = true;
     }
 
     public void zoomScale(float endScale) {

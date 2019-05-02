@@ -9,7 +9,7 @@
     <library.knockmark.com.library.widget.SeatLayoutView
             android:id="@+id/seat_map"
             android:layout_width="match_parent"
-            app:maxZoom="6"
+            app:maxZoom="1.5"
             android:layout_height="match_parent"/>
 
 </android.support.constraint.ConstraintLayout>
