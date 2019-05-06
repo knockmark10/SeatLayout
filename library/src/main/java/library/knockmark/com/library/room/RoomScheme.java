@@ -65,12 +65,12 @@ public class RoomScheme {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             schemeBackgroundColor = context.getResources().getColor(R.color.light_grey);
             indicatorPaint = initTextPaint(context.getResources().getColor(R.color.black_gray));
-            passengerNamePaint = initTextPaint(context.getResources().getColor(R.color.black_gray));
+            passengerNamePaint = initTextPaintForPassengers(context.getResources().getColor(R.color.black_gray));
             scenePaint = initTextPaint(context.getResources().getColor(R.color.black_gray));
         } else {
             schemeBackgroundColor = context.getColor(R.color.light_grey);
             indicatorPaint = initTextPaint(context.getColor(R.color.black_gray));
-            passengerNamePaint = initTextPaint(context.getColor(R.color.black_gray));
+            passengerNamePaint = initTextPaintForPassengers(context.getColor(R.color.black_gray));
             scenePaint = initTextPaint(context.getColor(R.color.black_gray));
         }
         textPaint = initTextPaint(Color.WHITE);
@@ -162,6 +162,16 @@ public class RoomScheme {
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeMiter(0);
         paint.setTextSize(25);
+        paint.setTypeface(typeface);
+        return paint;
+    }
+
+    private Paint initTextPaintForPassengers(int color) {
+        Paint paint = new Paint();
+        paint.setColor(color);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeMiter(0);
+        paint.setTextSize(20);
         paint.setTypeface(typeface);
         return paint;
     }
@@ -278,7 +288,7 @@ public class RoomScheme {
                                 backgroundPaint);
                         drawTextCentred(tempCanvas, passengerNamePaint, seats[i][j].passengerName(),
                                 offset / 2 + (seatWidth + seatGap) * j + seatWidth / 2 + scene.getLeftYOffset(),
-                                offset / 10 + (seatWidth + seatGap) * i + seatWidth / 10 + scene.getTopXOffset());
+                                offset / 10 + (seatWidth + seatGap) * i + seatWidth / 20 + scene.getTopXOffset());
                         break;
                     case INDICATOR:
                         drawTextCentred(tempCanvas, indicatorPaint, seats[i][j].indicator(),
