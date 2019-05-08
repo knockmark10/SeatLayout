@@ -30,4 +30,8 @@ data class CustomSeat(
         this.seatStatus = status ?: RoomScheme.SeatStatus.FREE
     }
 
+    override fun updatePassengerName(passengerName: String) {
+        seatNumber = passengerName
+    }
+
 }

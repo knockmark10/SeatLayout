@@ -17,6 +17,7 @@ public class RoomScheme {
 
     private int width, height;
     private Seat[][] seats;
+    private List<Seat> chosenSeats = new ArrayList<>();
 
     private final Rect textBounds = new Rect();
     private Paint textPaint, backgroundPaint, indicatorPaint, passengerNamePaint, scenePaint;
@@ -124,7 +125,7 @@ public class RoomScheme {
         image.setImageBitmap(getImageBitmap());
     }
 
-    public void setSeatListener(SeatListener listener) {
+    public void setOnSeatSelectedListener(SeatListener listener) {
         this.listener = listener;
     }
 
@@ -214,9 +215,21 @@ public class RoomScheme {
             notifySeatListener(pressedSeat);
             pressedSeat.setStatus(pressedSeat.status().pressSeat());
             image.setImageBitmap(getImageBitmap());
-        } else if (maxSeatsClickListener != null) {
-            maxSeatsClickListener.onMaxSeatsReached(pressedSeat.id());
+        } else {
+            if (maxSeatsClickListener != null) {
+                maxSeatsClickListener.onMaxSeatsReached(pressedSeat.id());
+            }
+            shiftListWithNewSeat(pressedSeat);
         }
+    }
+
+    private void shiftListWithNewSeat(Seat pressedSeat) {
+        Seat firstSeatSelected = this.chosenSeats.get(0);
+        firstSeatSelected.setStatus(firstSeatSelected.status().pressSeat());
+        this.chosenSeats.remove(0);
+        notifySeatListener(pressedSeat);
+        pressedSeat.setStatus(pressedSeat.status().pressSeat());
+        image.setImageBitmap(getImageBitmap());
     }
 
     /**
@@ -236,6 +249,20 @@ public class RoomScheme {
         }
         selectedSeats--;
         return true;
+    }
+
+    public void updatePassengerSeatName(String id, String passengerName) {
+        Seat seatToUpdate = null;
+        for (Seat seat : chosenSeats) {
+            if (seat.id().equals(id)) {
+                seatToUpdate = seat;
+                break;
+            }
+        }
+        if (seatToUpdate != null) {
+            seatToUpdate.updatePassengerName(passengerName);
+            image.setImageBitmap(getImageBitmap());
+        }
     }
 
     private boolean canSeatPress(Point p, int row, int seat) {
@@ -386,11 +413,15 @@ public class RoomScheme {
 
     private void notifySeatListener(Seat seat) {
         if (seat.status() == SeatStatus.FREE) {
-            if (listener != null)
+            this.chosenSeats.add(seat);
+            if (listener != null) {
                 listener.onSeatSelected(seat.id());
+            }
         } else {
-            if (listener != null)
+            this.chosenSeats.remove(seat);
+            if (listener != null) {
                 listener.onSeatUnselected(seat.id());
+            }
         }
     }
 

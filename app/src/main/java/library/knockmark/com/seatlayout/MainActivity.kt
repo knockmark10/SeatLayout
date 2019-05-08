@@ -1,13 +1,13 @@
 package library.knockmark.com.seatlayout
 
 import android.os.Bundle
-import android.os.SystemClock
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.MotionEvent
 import kotlinx.android.synthetic.main.activity_main.*
 import library.knockmark.com.library.room.RoomScheme
 import library.knockmark.com.library.room.Seat
+import library.knockmark.com.library.room.SeatListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,14 +22,23 @@ class MainActivity : AppCompatActivity() {
             .setChosenSeatIcon(R.drawable.ic_flight_seat_chosen)
             .setBusySeatIcon(R.drawable.ic_flight_seat_busy)
             .setHallIcon(R.drawable.ic_doted_line, 50)
-            .setMaxSelectedTickets(9)
+            .setMaxSelectedTickets(3)
             .setSeatGap(25)
             .build()
 
         scheme.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
         scheme.setIndicatorColor(ContextCompat.getColor(this, R.color.colorMarker))
         scheme.setPassengerNameColor(ContextCompat.getColor(this, R.color.colorAccent))
-        this.seat_map.performMaxZoom()
+        scheme.setOnSeatSelectedListener(object: SeatListener{
+            override fun onSeatSelected(id: String?) {
+            }
+
+            override fun onSeatUnselected(id: String?) {
+            }
+        })
+        Handler().postDelayed({
+            scheme.updatePassengerSeatName("12", "MC")
+        }, 5000)
     }
 
     private fun getSeats(): Array<Array<Seat>> {
