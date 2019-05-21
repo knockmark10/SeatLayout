@@ -10,6 +10,7 @@ import android.graphics.PointF;
 import android.os.SystemClock;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -159,6 +160,24 @@ public class SeatLayoutView extends AppCompatImageView {
         });
     }
 
+    public void performZoom() {
+        ValueAnimator zoomAnimation = ValueAnimator.ofFloat(1, width / origWidth);
+        zoomAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float value = (Float) valueAnimator.getAnimatedValue();
+                zoomScale(value);
+                if (value == (width / origWidth)) {
+                    minScale = (float) Math.floor(width / origWidth);
+                    saveScale = width / origWidth;
+                    matrix.postTranslate(0f, bottom / origHeight);
+                }
+            }
+        });
+        zoomAnimation.setDuration(ANIMATION_ZOOM_DURATION);
+        zoomAnimation.start();
+    }
+
     public void setClickListener(ImageClickListener listener) {
         this.listener = listener;
     }
@@ -248,9 +267,11 @@ public class SeatLayoutView extends AppCompatImageView {
         saveScale *= scaleFactor;
         if (saveScale > maxScale) {
             saveScale = maxScale;
+            Log.d("Scale270", "Scale: "+saveScale);
             scaleFactor = maxScale / origScale;
         } else if (saveScale < minScale) {
             saveScale = minScale;
+            Log.d("Scale274", "Scale: "+saveScale);
             scaleFactor = minScale / origScale;
         }
         right = width * saveScale - width - (2 * redundantXSpace * saveScale);
@@ -397,6 +418,9 @@ public class SeatLayoutView extends AppCompatImageView {
         right = width * saveScale - width - (2 * redundantXSpace * saveScale);
         bottom = height * saveScale - height - (2 * redundantYSpace * saveScale);
         setImageMatrix(matrix);
+        if (origWidth != 0) {
+            performZoom();
+        }
     }
 
 }
